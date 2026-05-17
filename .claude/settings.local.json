@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(skill-creator)",
+      "Bash(python3 *)",
+      "Bash(powershell *)",
+      "Bash(unzip -l ai-neat-skill-new.zip)",
+      "Bash(where ccswitch *)",
+      "WebSearch",
+      "WebFetch(domain:deepwiki.com)"
+    ]
+  }
+}
