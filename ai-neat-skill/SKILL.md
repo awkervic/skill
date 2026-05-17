@@ -1,14 +1,11 @@
+---
+name: ai-neat-skill
+description: AI 编年史记忆剪枝技能。用于提炼核心事件快照、压缩上下文、同步 memory.md 记忆文件。当上下文接近限制或对话过长时触发。
+---
+
 # 🌌 AI Neat Skill — AI 编年史记忆剪枝技能
 
-<meta>
-- **Version**: 1.1.0
-- **Compatibility**: Gemini CLI, Claude Code, OpenAI Codex, Windsurf
-- **Role**: Memory Chronicle Manager
-</meta>
-
 ## 📋 技能定义 (Skill Definition)
-
-<skill_instructions>
 
 ### 🎯 激活触发器 (Activation Triggers)
 当满足以下任一条件时，必须启动该技能：
@@ -17,11 +14,9 @@
 3. 项目初始化或关键阶段结束，需要进行状态同步。
 
 ### ⚙️ 核心协议 (Core Protocol)
-<protocol>
 1. **禁止直接抹除**：严禁在未备份核心事件的情况下直接丢弃历史上下文。
 2. **编年史压缩**：将琐碎的调试过程提炼为 [精确日期] 驱动的「核心事件快照」。
 3. **原子化存储**：每个独立事件在 `memory.md` 中占用且仅占用一行。
-</protocol>
 
 ### 🛠️ 执行流程 (Workflow)
 
@@ -37,9 +32,7 @@
 - **环境变更** (Environment Changes)
 
 #### 第二步：提取快照 (Extraction)
-<format_rule>
-`[YYYY-MM-DD] <分类>：<事件描述> (指针/关联路径)`
-</format_rule>
+- **格式规范**：`[YYYY-MM-DD] <分类>：<事件描述> (指针/关联路径)`
 - **绝对日期**：使用 `2026-05-17` 格式。
 - **深层链接**：关联到具体的文档或代码段（例如：`详见 README.md`）。
 
@@ -54,8 +47,6 @@
 - [ ] 所有快照包含精确日期？
 - [ ] 保持单行格式？
 - [ ] 写入确认？
-
-</skill_instructions>
 
 ## 📂 资源引用 (References)
 - **memory.md**：项目编年史记忆文件。
