@@ -14,5 +14,6 @@ When you encounter long conversation history or the user says **"编年史"**, *
 2.  **Incremental Summary**: Append changes to `Summarize.md` with Beijing Time `[YYYY-MM-DD HH:mm]`.
 3.  **Sync to Root**: Extract snapshots and append them to `<root>/memory.md`.
 4.  **No Internal Redundancy**: Do not store memory files inside the skill directory.
+5.  **Temporary File Archiving**: Move and organize all temporary files and draft documents generated during the pruning process into the `<root>/ai归档/` directory.
 
 Please refer to [SKILL.md](./SKILL.md) for the full execution workflow and formatting rules.
