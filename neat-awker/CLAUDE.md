@@ -5,26 +5,40 @@
 This project uses the optimized **Neat Awker** for efficient, lossless memory management without token bloating or lagging.
 
 ### ⚙️ Activation
-When encountering a long conversation history or when the user says **"编年史"**, **"/neat-awker"**, **"整理记忆"**, **"收尾"**, or **"整理文档"**, you MUST follow the twin-track protocol defined in [SKILL.md](./SKILL.md).
+1. **Three-in-One Master Workflow**: When user says **"/neat-awker"** or **"整理对话"**, or when encountering a long conversation history, you MUST enforce the Three-in-One master sequence (includes logic distillation, twin-track memory sync, and physical workspace cleanup).
+2. **Session Cleanup (Shortcut)**: When user says **"/clean"** or **"清理缓存"**, perform quick session physical cleanup only.
+3. **Knowledge Distillation (Shortcut)**: When user says **"/distill"** or **"提炼思路"**, perform logic distillation to `LOGIC_BASE.md` and subsequent physical cleanup.
 
-### 📋 Core Responsibilities (Twin-Track Protocol)
+### 🚨 Deep Linkage with think-same-skill (Enforced Thought Alignment)
+1. **No Presumptuous Delivery**: For any request involving coding, system architecture, config logic, or technical design, **you are STRICTLY FORBIDDEN from writing code or designing the final solution directly (to prevent AI hallucination/wild guesses)**. You MUST automatically trigger and enter **【Phase 1: Boundary Sniffing and Inverse Questioning】** of `think-same-skill` first!
+2. **Abide by Engineering Red Lines**: You must be fully bounded by the four engineering delivery red lines (Think Before Coding, Simplicity First, Surgical Precision, Goal-Driven Execution) defined in `think-same-skill`.
+3. **Rules Alignment**: You must actively read and refer to `ai归档/核心规则/rules.md` maintained by `neat-awker` as the baseline. **Note: Rules and logical paths are dynamically evolving reference systems, not rigid dogmas; they must adapt as the project evolves.**
 
-1.  **Track 1: Chronicle Archive (Write-Only)**
-    *   **Purpose**: Log historical events and incremental changes.
-    *   **Path**: `ai归档/编年体记忆/memory.md` and `Summarize.md`.
-    *   **Action**: **Do NOT read** the historical contents of these files during operations to save time and tokens. Directly append the new session milestone snapshot (using Beijing Time `[YYYY-MM-DD HH:mm]`). **Never** read or load this file back into active context for reasoning.
+### 🛠️ Three-in-One Master Workflow Guidelines
 
-2.  **Track 2: Matrix Pruning & Active Rules (Active Guidance)**
-    *   **Purpose**: Rules, constraints, cheatsheets, and change matrices that guide the AI's actual coding work.
-    *   **Path**: `ai归档/核心规则/rules.md`.
-    *   **Action**: Active read & pruning. Reconcile changes (DB tables, API routes, env vars) against rules using the change matrix. Crucially, **purge and delete** all stale, completed, or redundant guidelines. Keep the rules file **strictly under 80 lines**.
+Upon receiving `/neat-awker` or `整理对话`, execute the following steps in sequence:
 
-3.  **Lightweight Execution (Speed-First)**:
-    *   Perform a quick delta inventory of only the *current* session changes, rather than a full deep chat log analysis.
-    *   Clean up by moving all temporary drafts, scratch files, and intermediate outputs to the `<root>/ai归档/` directory.
+1. **Step 1: Logic Distillation & Knowledge Archive**
+   - Review the session, extract user's **specific approaches** and **core design decisions**. Write them to `LOGIC_BASE.md` at workspace root (create if missing). Treat these as highly valuable references that should dynamically evolve with the project.
+   - Format: `[Date] | [Task Goal] | [Core Solution] | [Anti-Trap/Logic Reason]`.
 
-4.  **Automatic Migration & Backward Compatibility (Migration - Auto-run)**:
-    *   At the start of pruning, scan and rename any remnant `ai-neat-skill` directories, skill bundles, and old in-file references to `neat-awker` automatically; ignore if already migrated.
-    *   Smoothly extract historical redlines/rules from old memories into the new Track 2 `rules.md` on the first run.
+2. **Step 2: Twin-Track Backup & Rules Pruning**
+   - **Track 1 (Chronicle - Write-Only)**: Append session events snapshot and summaries to `ai归档/编年体记忆/memory.md` & `Summarize.md`. Never read these files back.
+   - **Track 2 (Rules - Pruning)**: Read `ai归档/核心规则/rules.md` and update with active APIs/routes/env vars via change matrix. **Purge all expired/completed guidelines**; keep it under 80 lines.
+
+3. **Step 3: Physical Clean Up & Cache Eviction**
+   - **Identify UUID Path**: Locate the current session folder in `C:\Users\Dell\.gemini\antigravity-cli\brain\`.
+   - **Physical Delete**:
+     * Recursively delete all `Task Logs` and temporary drafts in that UUID directory via PowerShell.
+     * Remove all intermediate `scratch` python files from the workspace.
+     * Force delete all generated `__pycache__` folders at the workspace root.
+   - **Safety Boundary**: Do NOT touch any user-created `.py`, `.xlsx`, `.csv`, or other data assets.
+
+4. **Reply Template**:
+   - Briefly list the saved core logic items.
+   - Confirm: *"冗长对话数据已清理，核心灵魂已锁死在 LOGIC_BASE.md。"*
+   - Prompt the user that they are in an ultra-clean environment and can start a brand new, zero-token chat immediately!
+
+---
 
 Please refer to [SKILL.md](./SKILL.md) for the full execution workflow and formatting rules.
