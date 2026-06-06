@@ -15,7 +15,7 @@
 * **三合一原子执行流**:
   1. **思路提炼与蒸馏**：提炼本轮开发的核心思路与避坑经验，写入 `ai归档/LOGIC_BASE.md` (**动态迭代，仅供参考**)
   2. **双轨同步备份**：事件增量只写不读追加至 `ai归档/编年体记忆/memory.md` & `Summarize.md`；读取极简核心规则 `ai归档/核心规则/rules.md`，应用变更影响矩阵，无情修剪过期规则并在 80 行内。
-  3. **物理打扫战场**：利用 PowerShell 递归删除当前会话 UUID 目录下的所有 `Task Logs` 与草稿；删除 `scratch` 临时脚本与 `__pycache__` 运行垃圾。
+  3. **工作区清理（不破坏会话缓存）**：删除工作区 `scratch` 临时脚本与 `__pycache__` 运行垃圾；严禁删除当前会话 `Task Logs` 与草稿，以防破坏上下文缓存并导致 Token 暴涨。
 
 ### 2. ⚡ think-same-skill (思维对齐与硬核交付协议)
 * **目录**: [`think-same-skill/`](./think-same-skill/)
