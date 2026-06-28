@@ -1,56 +1,41 @@
-# AI Skills Toolkit 🛠️
+# AI Skills Toolkit
 
-这是一个专门为大模型 CLI 编码助手（如 Gemini CLI / Antigravity, Claude Code）设计的自定义技能库（Skills Toolkit）。通过精细化的运行协议与结构化指令，赋能 AI 助手更长效的记忆能力和更卓越的代码交付质量。
+这是一个面向大模型 CLI 编码助手的自定义技能库。
 
----
+## 技能模块
 
-## 📂 技能模块介绍
+### 1. AICloud Lite / cowork-skill-light
 
-本仓库包含两个深度联动、高效协作的核心技能模块：
+目录：[`cowork-skill-light/`](./cowork-skill-light/)
 
-### 1. 🧠 neat-awker (双轨三合一轻量化记忆与清理技能)
-* **目录**: [`neat-awker/`](./neat-awker/)
-* **功能简介**: 一键式极致轻量化收尾机制。解决长对话中上下文溢出与整理缓慢的问题。通过**三合一终极收尾**，在节省 Token 的同时，强力驱逐本地残留的 Task 日志与运行垃圾，极大地避免了由于历史缓存引发的代码幻觉。
-* **激活指令**: `/neat-awker` 或 `整理对话` (提供快捷快捷键：`/clean` 清理缓存、`/distill` 提炼思路)
-* **三合一原子执行流**:
-  1. **思路提炼与蒸馏**：提炼本轮开发的核心思路与避坑经验，写入 `ai归档/LOGIC_BASE.md` (**动态迭代，仅供参考**)
-  2. **双轨同步备份**：事件增量只写不读追加至 `ai归档/编年体记忆/memory.md` & `Summarize.md`；读取极简核心规则 `ai归档/核心规则/rules.md`，应用变更影响矩阵，无情修剪过期规则并在 80 行内。
-  3. **工作区清理（不破坏会话缓存）**：删除工作区 `scratch` 临时脚本与 `__pycache__` 运行垃圾；严禁删除当前会话 `Task Logs` 与草稿，以防破坏上下文缓存并导致 Token 暴涨。
+patch-based multi-agent state machine：
 
-### 2. ⚡ think-same-skill (思维对齐与硬核交付协议)
-* **目录**: [`think-same-skill/`](./think-same-skill/)
-* **功能简介**: 为复杂工程开发量身定制的思维共鸣与质量保障框架。通过严苛的三阶段审核流程与四大工程红线，**杜绝 AI 凭空臆想和假设开发**，确保交付成品与人类意图完全一致。
-* **激活指令**: `/align` 或 `思维对齐` (**实质开发任务自动强制触发**，或用户输入激活)
-* **核心运行规范**:
-  * **自动强制触发 (Auto-Trigger)**：任何涉及代码编写、系统架构、接口设计、重构优化的实质任务，AI 严禁直接输出方案，必须强制首先进入**边界嗅探**阶段向人类反向提问以对齐思维。
-  * **思维对齐三闸门**: 边界嗅探（提问/避坑） ➡️ 骨架提案（架构选型/拒绝黑箱） ➡️ 白箱交付（可读性实现/白箱运行说明）。
-  * **工程四项红线**: 编码前思考（Think Before Coding）、至简至上（拒绝过度泛型与抽象）、精准手术（没坏别修/外科精准）、目标驱动（可检验/步骤验证闭环）。
+- `cowork/state.md` 是唯一真相。
+- 任意 agent 只能读取 `cowork/state.md`。
+- 任意 agent 只能输出 `cowork/patch.json`。
+- agent 不允许直接修改 `state.md`。
+- merge engine 负责合并 patch 并 overwrite 更新 `state.md`。
+- 禁止 logs、history、neat、长期记录文件。
+- 禁止角色绑定，支持 opencode / codex / any LLM。
 
----
+文件结构：
 
-## 🚀 深度联动与高效率协同
+```text
+cowork/
+├── state.md
+└── patch.json
+```
 
-在开发中，两款技能相辅相成：
-1. **防臆想强控制**：Neat Awker 约束下，AI 在进入任何开发任务前，都会被强制唤醒 `think-same-skill` 优先对齐思维偏好。
-2. **规则共鸣基石**：`think-same-skill` 推进方案设计时，必须优先感知并参考由 `neat-awker` 维护的核心指南 `ai归档/核心规则/rules.md`，保持历史状态一致。
-3. **极速干净收尾**：工作结束时触发 `neat-awker` 提炼经验进 `ai归档/LOGIC_BASE.md`，物理斩断 Task 日志，保证下一轮会话极速加载、零 Token 负担。
+### 2. think-same-skill
 
----
+目录：[`think-same-skill/`](./think-same-skill/)
 
-## 🚀 如何在 AI 助手中使用这些技能？
+思维对齐与硬核工程交付协议。它必须遵守 AICloud Lite 的状态规则：读取 `cowork/state.md`，并通过 `cowork/patch.json` 表达建议变更。
 
-当你在支持 **Skills（技能扩展）** 的 AI CLI 工具（如 Antigravity / Gemini CLI 或 Claude Code）中加载本仓库或相关目录作为工作区时，AI 会自动扫描并激活对应的技能。
+## 使用方式
 
-### ⚙️ 配置文件说明
-每个技能目录中包含针对不同 AI 助手的配置：
-- **`GEMINI.md`**: 适配 Gemini CLI / Antigravity 的提示词与约束指令。
-- **`CLAUDE.md`**: 适配 Claude Code 的运行协议与指令。
-- **`SKILL.md`**: 通用的技能描述与执行 SOP 规范。
+在支持 Skills 的 AI CLI 工具中加载本仓库或相关目录。每个技能目录包含：
 
----
-
-## 🎨 贡献与定制
-
-您可以根据个人开发习惯 and 项目规模，自由定制或扩展本仓库的协议：
-1. **定制记忆格式**: 修改 `neat-awker/SKILL.md` 调整归档路径与格式。
-2. **新增交付红线**: 在 `think-same-skill/SKILL.md` 中增加符合您团队规范的代码检查标准。
+- `SKILL.md`: 通用技能描述与执行 SOP。
+- `CLAUDE.md`: Claude Code 适配指令。
+- `GEMINI.md`: Gemini / Antigravity 适配指令。

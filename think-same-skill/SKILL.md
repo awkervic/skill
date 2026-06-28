@@ -37,10 +37,13 @@ description: 思维对齐与硬核工程交付协议。通过边界嗅探、架�
 2. 给出完全透明、无黑箱、 scannable（易读性高）的代码实现或文本方案。
 3. 在方案末尾附带一份《白箱运行说明》，清楚解释各模块的交互路径。
 
-# 🧠 模块二：记忆同步与思考
+# 🧠 模块二：状态同步与思考
 
-1. 阅读并思考由 `neat-awker` 维护的根目录核心规则 `ai归档/核心规则/rules.md`。
-2. 在设计方案时，必须参考这些规则文件中的最新决策和开发红线约束，确保开发规范一致性。
+1. 阅读并思考 AICloud Lite 的唯一状态文件 `cowork/state.md`。
+2. 在设计方案时，必须参考 `state.md` 中的当前目标、当前状态、最终决策和待办。
+3. 若需要表达状态变更，只能输出 `cowork/patch.json`，不得直接修改 `state.md`。
+4. 禁止读取 logs、history、archive、neat 或长期记录文件作为决策依据。
+5. 禁止固定 Claude / Codex / Agy 等角色职责；协议必须支持任意 agent。
 
 # 🔪 模块三：硬核工程交付四项红线 (Engineering Delivery Protocol)
 

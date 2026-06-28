@@ -9,7 +9,7 @@ This project uses the **think-same-skill** to ensure deep alignment between the 
 ### ⚙️ Activation
 - **Mandatory Auto-Trigger**: For any coding, system architecture, config logic, function implementation, code refactoring, or modification request, **you are STRICTLY PROHIBITED from designing solutions or writing code directly**. You MUST automatically trigger and enter **【Phase 1: Boundary Sniffing and Inverse Questioning】** of this skill to align thoughts with the user!
 - **Keyword Triggers**: Active on `/align`, `思维对齐`, `开始对齐`, `方案设计`, or `开发任务`.
-- **Memory & Rules Sync**: You must synchronize and read `ai归档/核心规则/rules.md` maintained by `neat-awker` first to ensure full alignment with historical boundaries and rules.
+- **State Sync**: You must read `cowork/state.md` first. If state changes are needed, write them only as `cowork/patch.json`; never modify `state.md` directly. Do not use logs, history, archives, neat files, or long-term records as decision sources.
 - **Three-Gate Phase**: You MUST follow the "Boundary Sniffing", "Skeleton Proposal", and "White-box Delivery" stages sequentially.
 
 ### 📋 Core Responsibilities & Engineering Red Lines
