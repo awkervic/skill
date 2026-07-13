@@ -1,56 +1,58 @@
 # AI Skills Toolkit
 
-这是一个面向大模型 CLI 编码助手的自定义技能库。
+面向 Codex、Claude Code、Gemini 等 AI 编码助手的轻量技能库。目前维护 3 个独立 Skill，分别覆盖多智能体协作、PowerShell 安全调用和高影响工程任务的需求对齐。
 
-## 技能模块
+## Skills
 
-### 1. AICloud Lite / cowork-skill-light
+| Skill | 用途 | 入口 |
+| --- | --- | --- |
+| `cowork-skill-light` | 使用 `cowork/state.md` 与 `cowork/patch.json` 协调多个 AI agent，保持单一当前状态，不维护日志或历史档案 | [`SKILL.md`](./cowork-skill-light/SKILL.md) |
+| `powershell-safe-invocation` | 在 Windows 上安全编写和执行 PowerShell，处理原生命令参数、路径转义、进程启动与文件操作 | [`SKILL.md`](./powershell-safe-invocation/SKILL.md) |
+| `think-same-skill` | 在高影响工程任务开始前对齐需求、架构和关键取舍；简单、可逆的任务仍可直接执行 | [`SKILL.md`](./think-same-skill/SKILL.md) |
 
-目录：[`cowork-skill-light/`](./cowork-skill-light/)
+## 克隆仓库
 
-patch-based multi-agent state machine：
-
-- `cowork/state.md` 是唯一真相。
-- 任意 agent 只能读取 `cowork/state.md`。
-- 任意 agent 只能输出 `cowork/patch.json`。
-- agent 不允许直接修改 `state.md`。
-- merge engine 负责合并 patch 并 overwrite 更新 `state.md`。
-- 禁止 logs、history、neat、长期记录文件。
-- 禁止角色绑定，支持 opencode / codex / any LLM。
-
-文件结构：
-
-```text
-cowork/
-├── state.md
-└── patch.json
+```powershell
+git clone https://github.com/awkervic/skill.git
+Set-Location skill
 ```
 
-### 2. think-same-skill
+## 安装到 Codex
 
-目录：[`think-same-skill/`](./think-same-skill/)
+使用 Codex 自带的 Skill Installer，将三个技能安装到用户技能目录：
 
-思维对齐与硬核工程交付协议。它必须遵守 AICloud Lite 的状态规则：读取 `cowork/state.md`，并通过 `cowork/patch.json` 表达建议变更。
+```powershell
+$installer = "$HOME\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py"
 
-### 3. powershell-safe-invocation
+python $installer `
+  --repo awkervic/skill `
+  --path cowork-skill-light powershell-safe-invocation think-same-skill
+```
 
-目录：[`powershell-safe-invocation/`](./powershell-safe-invocation/)
+安装完成后重启 Codex，使新 Skill 完整加载。
 
-Windows PowerShell 安全调用与文件操作规范，涵盖原生命令参数、路径转义、进程启动、脚本执行和文件系统变更。
+## 更新
 
-### 4. anthropics/skills 文档技能
+仓库副本可通过以下命令更新：
 
-以下技能来自 [anthropics/skills](https://github.com/anthropics/skills/tree/main/skills)：
+```powershell
+git pull --ff-only
+```
 
-- [`docx/`](./docx/)：Word 文档创建、读取与编辑。
-- [`pdf/`](./pdf/)：PDF 文件处理。
-- [`pptx/`](./pptx/)：PowerPoint 演示文稿处理。
-- [`xlsx/`](./xlsx/)：Excel 电子表格处理。
+如需更新 Codex 中已安装的版本，请先删除对应的用户 Skill 目录，再重新运行上面的安装命令。不要删除 `$HOME\.codex\skills\.system`，该目录包含 Codex 内置技能。
 
-## 使用方式
+## 目录结构
 
-在支持 Skills 的 AI CLI 工具中加载本仓库或相关目录。每个技能目录包含：
+```text
+skill/
+├── cowork-skill-light/
+│   └── SKILL.md
+├── powershell-safe-invocation/
+│   ├── SKILL.md
+│   └── reference.md
+├── think-same-skill/
+│   └── SKILL.md
+└── README.md
+```
 
-- `SKILL.md`: 通用技能描述与执行 SOP。
-- `CLAUDE.md`: Claude Code 适配指令。
-- `GEMINI.md`: Gemini / Antigravity 适配指令。
+每个技能以 `SKILL.md` 作为入口；部分技能还包含面向其他 AI 工具的适配文件或补充参考资料。
